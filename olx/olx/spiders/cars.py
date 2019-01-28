@@ -7,8 +7,8 @@ class CarsSpider(scrapy.Spider):
 
     name = 'cars'
     allowed_domains = ['rn.olx.com.br']
-    start_urls = ['''https://rn.olx.com.br/autos-e-pecas/'''
-                  '''carros-vans-e-utilitarios/''']
+    start_urls = ['https://rn.olx.com.br/autos-e-pecas'
+                  '/carros-vans-e-utilitarios/']
 
     def parse(self, response):
         """Parse method for cars."""
@@ -22,4 +22,17 @@ class CarsSpider(scrapy.Spider):
 
     def parse_detail(self, response):
         """Parse detail method for cars."""
-        self.log(response.url)
+        title = response.xpath('//title/text()').extract_first()
+        year = response.xpath(
+            '//span[contains(text(), "Ano")]/following-sibling::strong'
+            '/a/@title'
+        ).extract_first()
+        ports = response.xpath(
+            '//span[contains(text(), "Portas")]/following-sibling::strong'
+            '/text()'
+        ).extract_first()
+        yield {
+            'title': title,
+            'year': year,
+            'ports': ports,
+        }
