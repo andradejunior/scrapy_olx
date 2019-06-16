@@ -7,8 +7,9 @@ class CarsSpider(scrapy.Spider):
 
     name = 'cars'
     allowed_domains = ['rn.olx.com.br']
-    start_urls = ['https://rn.olx.com.br/autos-e-pecas'
-                  '/carros-vans-e-utilitarios/']
+    start_urls = [
+        'https://rn.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/'
+    ]
 
     def parse(self, response):
         """Parse method for cars."""
